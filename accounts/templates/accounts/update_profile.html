@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Profile</title>
+    <link rel="stylesheet" href="{% static 'css/update_profile.css' %}">
+</head>
+<body>
+
+<h2>Update Profile</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <h3>User Info</h3>
+    {{ user_form.as_p }}
+
+    <h3>Profile Info</h3>
+    {{ profile_form.as_p }}
+
+    <button type="submit">Update</button>
+</form>
+
+</body>
+</html>

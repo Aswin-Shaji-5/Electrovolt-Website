@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/track_order.css' %}">
+    <title>Track Order</title>
+</head>
+<body>
+
+<div class="track-container">
+
+    <h1 class="track-title">Track Order #{{ order.id }}</h1>
+
+    <p class="track-info"><strong>Status:</strong> {{ order.status }}</p>
+    <p class="track-info"><strong>Placed On:</strong> {{ order.created_at }}</p>
+    <p class="track-info"><strong>Last Updated:</strong> {{ order.updated_at }}</p>
+    <p class="track-info"><strong>Address:</strong> {{ order.address }}</p>
+    <p class="track-info"><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+
+    <!-- Status Highlight Box -->
+    <div class="status-box {{ order.status|lower }}">
+        {{ order.status }}
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+
+        <div class="step {% if order.status == 'Pending' or order.status == 'Processing' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            <div class="circle">1</div>
+            <p>Pending</p>
+        </div>
+
+        <div class="step {% if order.status == 'Processing' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            <div class="circle">2</div>
+            <p>Processing</p>
+        </div>
+
+        <div class="step {% if order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+            <div class="circle">3</div>
+            <p>Shipped</p>
+        </div>
+
+        <div class="step {% if order.status == 'Delivered' %}active{% endif %}">
+            <div class="circle">4</div>
+            <p>Delivered</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

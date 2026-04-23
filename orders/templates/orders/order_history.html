@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+    <title>My Orders</title>
+</head>
+<body>
+
+<div class="order-history-container">
+
+    <h1 class="page-title">My Orders</h1>
+
+    {% for order in orders %}
+    <div class="order-card">
+
+        <div class="order-top">
+            <div>
+                <p class="order-info"><strong>Order ID:</strong> #{{ order.id }}</p>
+                <p class="order-info"><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+                <p class="order-info"><strong>Date:</strong> {{ order.created_at }}</p>
+            </div>
+
+            <!-- Dynamic Status Class -->
+            <span class="status {{ order.status|lower }}">
+                {{ order.status }}
+            </span>
+        </div>
+
+        <a href="{% url 'track_order' order.id %}" class="track-btn">
+            Track Order
+        </a>
+
+
+        {% if order.status != "Cancelled" and order.status != "Delivered" %}
+            <a href="{% url 'cancel_order' order.id %}" 
+            class="cancel-btn"
+            onclick="return confirm('Are you sure you want to cancel this order?');">
+                Cancel Order
+            </a>
+        {% endif %}
+
+    </div>
+
+    {% empty %}
+        <p class="empty-msg">No orders yet.</p>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

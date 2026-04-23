@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="checkout-wrapper">
+
+    <div class="checkout-box">
+
+        <h2>Please enter your Address</h2>
+
+        <a href="{% url 'cart' %}" class="back-link">⬅ Back to Cart</a>
+
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+
+            {% if user.userprofile.role == 'buyer' %}
+
+                {% if total == 0 %}
+                    <p class="empty">Your cart is empty 😔</p>
+                    <a href="/" class="home-link">Go to Home</a>
+
+                {% else %}
+
+                    <h3>Total Amount: ₹{{ total }}</h3>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <label><b>Delivery Address:</b></label>
+
+                        <textarea
+                            name="address"
+                            rows="4"
+                            required
+                            placeholder="Enter your delivery address..."></textarea>
+
+                        <button type="submit">
+                            Place Order ✅
+                        </button>
+                    </form>
+
+                {% endif %}
+
+            {% else %}
+                <p class="empty">Only buyers can checkout ❌</p>
+            {% endif %}
+
+        {% else %}
+            <p class="empty">
+                Please <a href="{% url 'login' %}">login</a> to continue.
+            </p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

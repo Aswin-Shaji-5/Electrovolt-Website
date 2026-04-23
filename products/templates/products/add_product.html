@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+
+    <link rel="stylesheet" href="{% static 'css/add_product.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="container">
+
+        <h2>Add New Product</h2>
+
+        {% if user.userprofile.role == 'seller' %}
+
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit">Add Product</button>
+            </form>
+
+        {% else %}
+            <p class="error">Only sellers can add products ❌</p>
+        {% endif %}
+
+        <a href="/" class="back">⬅ Back to Home</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+/* ===== GLOBAL ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #edf6ff, #d9ecff);
+    min-height: 100vh;
+}
+
+/* ===== CENTER WRAPPER ===== */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ===== LOGIN BOX ===== */
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(14px);
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 15px 40px rgba(21, 101, 192, 0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    text-align: center;
+}
+
+/* ===== TITLE ===== */
+.login-box h2 {
+    margin-bottom: 25px;
+    color: #0d47a1;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* ===== INPUTS ===== */
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 12px;
+    border: 1px solid #cfe8ff;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.login-box input:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 4px rgba(25,118,210,0.1);
+}
+
+/* ===== BUTTON ===== */
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #1976d2, #42a5f5);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(25,118,210,0.25);
+}
+
+.login-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(25,118,210,0.35);
+}
+
+/* ===== REGISTER TEXT ===== */
+.register-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.register-text a {
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===== ERROR ===== */
+.error {
+    color: #d32f2f;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+
+    .login-box h2 {
+        font-size: 24px;
+    }
+}

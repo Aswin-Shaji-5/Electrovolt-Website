@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #eef2f7, #f8fafc);
+}
+
+/* Container */
+.track-container {
+    max-width: 750px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.track-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #1e293b;
+}
+
+/* Info */
+.track-info {
+    font-size: 16px;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+/* Status Box */
+.status-box {
+    margin: 25px 0;
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Status Colors */
+.pending { background: #fff7ed; color: #ea580c; }
+.processing { background: #eff6ff; color: #2563eb; }
+.shipped { background: #f5f3ff; color: #7c3aed; }
+.delivered { background: #ecfdf5; color: #059669; }
+.cancelled { background: #fef2f2; color: #dc2626; }
+
+/* Timeline */
+.timeline {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Line */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #e5e7eb;
+    z-index: 0;
+}
+
+/* Step */
+.step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 25%;
+}
+
+/* Circle */
+.circle {
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    border-radius: 50%;
+    background: #e5e7eb;
+    line-height: 30px;
+    font-size: 14px;
+    color: white;
+}
+
+/* Active Step */
+.active .circle {
+    background: #22c55e;
+}
+
+/* Label */
+.step p {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #475569;
+}

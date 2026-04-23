@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="register-wrapper">
+
+    <div class="register-box">
+
+        <h2>Register</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Username</label>
+            <input type="text" name="username" value="{{ form.username.value|default:'' }}">
+            <div class="error">{{ form.username.errors }}</div>
+
+            <label>Email</label>
+            <input type="email" name="email" value="{{ form.email.value|default:'' }}">
+            <div class="error">{{ form.email.errors }}</div>
+
+            <label>Password</label>
+            <input type="password" name="password">
+            <div class="error">{{ form.password.errors }}</div>
+
+            <label>Select Role</label>
+            <select name="role">
+                <option value="">Select Role</option>
+                <option value="buyer" {% if form.role.value == 'buyer' %}selected{% endif %}>Buyer</option>
+                <option value="seller" {% if form.role.value == 'seller' %}selected{% endif %}>Seller</option>
+            </select>
+            <div class="error">{{ form.role.errors }}</div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-text">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+/* ===== GLOBAL ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #edf6ff, #d9ecff);
+    min-height: 100vh;
+}
+
+/* ===== WRAPPER ===== */
+.register-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ===== REGISTER BOX ===== */
+.register-box {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(14px);
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 15px 40px rgba(21, 101, 192, 0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* ===== TITLE ===== */
+.register-box h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #0d47a1;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* ===== LABELS ===== */
+.register-box label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d47a1;
+}
+
+/* ===== INPUTS ===== */
+.register-box input,
+.register-box select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #cfe8ff;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.register-box input:focus,
+.register-box select:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 4px rgba(25,118,210,0.1);
+}
+
+/* ===== BUTTON ===== */
+.register-box button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 22px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #1976d2, #42a5f5);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(25,118,210,0.25);
+}
+
+.register-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(25,118,210,0.35);
+}
+
+/* ===== ERRORS ===== */
+.error {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ===== MESSAGE ===== */
+.message {
+    text-align: center;
+    color: #d32f2f;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* ===== LOGIN TEXT ===== */
+.login-text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.login-text a {
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+    .register-box {
+        padding: 30px 20px;
+    }
+
+    .register-box h2 {
+        font-size: 24px;
+    }
+}

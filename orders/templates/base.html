@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electrovolt</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* 🔥 NAVBAR */
+        .navbar {
+            background: #222;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: #444;
+        }
+
+        /* 🔥 SPECIAL BUTTONS */
+        .btn-success {
+            background: #28a745;
+            color: white !important;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white !important;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-danger {
+            background: red;
+            color: white !important;
+        }
+
+        .btn-danger:hover {
+            background: darkred;
+        }
+
+        .user {
+            color: #ccc;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        /* 🔥 PAGE CONTENT */
+        .content {
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- 🔥 NAVBAR -->
+<div class="navbar">
+    
+    <div class="logo">Electrovolt</div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        {% if user.is_authenticated %}
+
+            {% if user.userprofile and user.userprofile.role == 'buyer' %}
+                <a href="{% url 'cart' %}">Cart 🛒</a>
+            {% endif %}
+
+            {% if user.userprofile and user.userprofile.role == 'seller' %}
+                <!-- 🔥 Highlighted Add Product Button -->
+                <a href="{% url 'add_product' %}" class="btn-success">
+                    ➕ Add Product
+                </a>
+            {% endif %}
+
+            <span class="user">Hi, {{ user.username }}</span>
+
+            <a href="{% url 'logout' %}" class="btn-danger">Logout</a>
+
+        {% else %}
+            <a href="{% url 'login' %}" class="btn-primary">Login</a>
+            <a href="{% url 'register' %}" class="btn-success">Register</a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<!-- 🔥 PAGE CONTENT -->
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

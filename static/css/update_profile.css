@@ -1,0 +1,90 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Page Background */
+body {
+    background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Card */
+form {
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Title */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Section Titles */
+h3 {
+    margin: 15px 0 10px;
+    color: #555;
+    font-size: 16px;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #444;
+}
+
+/* Inputs */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+/* Input Focus */
+input:focus, select:focus {
+    border-color: #4a69bd;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 105, 189, 0.3);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Button Hover */
+button:hover {
+    background: #3b55a0;
+}
+
+/* Responsive */
+@media (max-width: 450px) {
+    form {
+        width: 90%;
+        padding: 25px;
+    }
+}
