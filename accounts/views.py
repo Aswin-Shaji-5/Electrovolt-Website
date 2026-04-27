@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from products.forms import ProductForm
 from .forms import UpdateUserForm, UpdateProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 #  REGISTER
 def register(request):
@@ -44,13 +46,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
 
-            # 🔥 Role-based redirect
-            role = getattr(user.userprofile, 'role', None)
-
-            if role == 'seller':
-                return redirect('add_product')   # go directly to add page
-            else:
-                return redirect('home')
+            return redirect('home')
 
         else:
             messages.error(request, "Invalid username or password")
@@ -92,20 +88,26 @@ def add_product(request):
 @login_required
 def update_profile(request):
     user_form = UpdateUserForm(instance=request.user)
-    profile_form = UpdateProfileForm(instance=request.user.userprofile)
+    password_form = PasswordChangeForm(request.user)
 
     if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, instance=request.user.userprofile)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+        if 'update_profile' in request.POST:
+            user_form = UpdateUserForm(request.POST, instance=request.user)
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, "Profile updated ✅")
+                return redirect('home')
 
-            messages.success(request, "Profile updated successfully ✅")
-            return redirect('home')
+        elif 'change_password' in request.POST:
+            password_form = PasswordChangeForm(request.user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, "Password changed 🔒")
+                return redirect('home')
 
     return render(request, 'accounts/update_profile.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'password_form': password_form
     })

@@ -7,19 +7,33 @@
 </head>
 <body>
 
-<h2>Update Profile</h2>
+<div class="profile-wrapper">
+    <h2>Update Profile</h2>
 
-<form method="POST">
-    {% csrf_token %}
+    <a href="{% url 'home' %}" class="back-btn">← Back to Home</a>
+    
+    <div class="profile-container">
 
-    <h3>User Info</h3>
-    {{ user_form.as_p }}
+        <div class="card">
+            <h3>User Info</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                <button type="submit" name="update_profile">Update Profile</button>
+            </form>
+        </div>
 
-    <h3>Profile Info</h3>
-    {{ profile_form.as_p }}
+        <div class="card">
+            <h3>Change Password</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ password_form.as_p }}
+                <button type="submit" name="change_password">Change Password</button>
+            </form>
+        </div>
 
-    <button type="submit">Update</button>
-</form>
+    </div>
+</div>
 
 </body>
 </html>
