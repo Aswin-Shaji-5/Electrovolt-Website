@@ -137,3 +137,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+# RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+# RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+
+from decouple import config
+
+RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')

@@ -4,7 +4,9 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .models import Cart, Order
 from products.models import Product
-
+import razorpay
+from django.conf import settings
+from django.http import HttpResponseBadRequest
 
 # ✅ Buyer Only Decorator (Safe)
 def buyer_only(view_func):
@@ -54,6 +56,10 @@ def checkout(request):
     items = Cart.objects.filter(user=request.user)
     total = sum(item.total_price() for item in items)
 
+    if total == 0:
+        messages.error(request, "Cart is empty ❌")
+        return redirect('cart')
+
     if request.method == 'POST':
         address = request.POST.get('address')
 
@@ -61,15 +67,26 @@ def checkout(request):
             messages.error(request, "Address is required ❌")
             return redirect('checkout')
 
-        Order.objects.create(
-            user=request.user,
-            address=address,
-            total_amount=total
-        )
+        # 🔥 Convert to paise
+        amount = int(total * 100)
 
-        items.delete()
-        messages.success(request, "Order placed successfully 🎉")
-        return redirect('home')
+        # Create Razorpay order
+        payment = client.order.create({
+            "amount": amount,
+            "currency": "INR",
+            "payment_capture": 1
+        })
+
+        # Store data temporarily in session
+        request.session['order_address'] = address
+        request.session['razorpay_order_id'] = payment['id']
+
+        return render(request, 'orders/payment.html', {
+            'razorpay_key': settings.RAZORPAY_KEY_ID,
+            'payment': payment,
+            'amount': amount,
+            'total': total
+        })
 
     return render(request, 'orders/checkout.html', {'total': total})
 
@@ -121,3 +138,72 @@ def cancel_order(request, order_id):
 
     messages.success(request, "Order cancelled successfully ✅")
     return redirect('order_history')
+
+#Razor pay client creation
+client = razorpay.Client(auth=(
+    settings.RAZORPAY_KEY_ID,
+    settings.RAZORPAY_KEY_SECRET
+))
+
+    
+@login_required
+@buyer_only
+def payment_success(request):
+    payment_id = request.GET.get('payment_id')
+    order_id = request.GET.get('order_id')
+    signature = request.GET.get('signature')
+
+    #  Basic validation
+    if not all([payment_id, order_id, signature]):
+        return HttpResponseBadRequest("Invalid payment response ❌")
+
+    params_dict = {
+        'razorpay_order_id': order_id,
+        'razorpay_payment_id': payment_id,
+        'razorpay_signature': signature
+    }
+
+    try:
+        #  Verify signature
+        client.utility.verify_payment_signature(params_dict)
+
+        #  Get session data
+        address = request.session.get('order_address')
+        items = Cart.objects.filter(user=request.user)
+
+        if not address or not items.exists():
+            return HttpResponseBadRequest("Session expired or cart empty ❌")
+
+        total = sum(item.total_price() for item in items)
+
+        #  Create order AFTER payment success
+        order = Order.objects.create(
+            user=request.user,
+            address=address,
+            total_amount=total,
+            status="Paid",  # 🔥 FIXED
+            razorpay_order_id=order_id,
+            razorpay_payment_id=payment_id,
+            razorpay_signature=signature
+        )
+
+        #  Clear cart
+        items.delete()
+
+        #  Clean session
+        request.session.pop('order_address', None)
+        request.session.pop('razorpay_order_id', None)
+
+        messages.success(request, "Payment successful 🎉")
+        return redirect('order_history')
+
+    except razorpay.errors.SignatureVerificationError:
+        return HttpResponseBadRequest("Payment verification failed ❌")
+
+    except Exception as e:
+        print(e)  # for debugging
+        return HttpResponseBadRequest("Something went wrong ❌")
+
+
+
+        
