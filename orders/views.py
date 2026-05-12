@@ -8,7 +8,7 @@ import razorpay
 from django.conf import settings
 from django.http import HttpResponseBadRequest
 
-# ✅ Buyer Only Decorator (Safe)
+#  Buyer Only Decorator (Safe)
 def buyer_only(view_func):
     def wrapper(request, *args, **kwargs):
         if not hasattr(request.user, 'userprofile') or request.user.userprofile.role != 'buyer':
@@ -17,7 +17,7 @@ def buyer_only(view_func):
     return wrapper
 
 
-# ✅ Add to Cart
+#  Add to Cart
 @login_required
 @buyer_only
 def add_to_cart(request, product_id):
@@ -36,7 +36,7 @@ def add_to_cart(request, product_id):
     return redirect('cart')
 
 
-# ✅ View Cart
+#  View Cart
 @login_required
 @buyer_only
 def cart_view(request):
@@ -49,7 +49,7 @@ def cart_view(request):
     })
 
 
-# ✅ Checkout
+#  Checkout
 @login_required
 @buyer_only
 def checkout(request):
@@ -67,7 +67,7 @@ def checkout(request):
             messages.error(request, "Address is required ❌")
             return redirect('checkout')
 
-        # 🔥 Convert to paise
+        #  Convert to paise
         amount = int(total * 100)
 
         # Create Razorpay order
@@ -91,7 +91,7 @@ def checkout(request):
     return render(request, 'orders/checkout.html', {'total': total})
 
 
-# ✅ Remove from Cart (NEW)
+#  Remove from Cart (NEW)
 @login_required
 @buyer_only
 def remove_from_cart(request, item_id):
