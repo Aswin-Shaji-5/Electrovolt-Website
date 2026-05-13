@@ -8,32 +8,92 @@ from products.forms import ProductForm
 from .forms import UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.core.mail import send_mail
+from django.conf import settings
 
 #  REGISTER
+# REGISTER
 def register(request):
+
     if request.method == 'POST':
+
         username = request.POST.get('username')
+
+        email = request.POST.get('email')
+
         password = request.POST.get('password')
+
         role = request.POST.get('role')
 
+        # Check username
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
+
+            messages.error(request,"Username already exists")
+
             return redirect('register')
 
-        user = User.objects.create_user(
-            username=username,
-            password=password
-        )
+        # Check email
+        if User.objects.filter(email=email).exists():
 
+            messages.error(request,"Email already exists")
+
+            return redirect('register')
+
+        # Create user
+        user = User.objects.create_user(username=username, email=email, password=password)
+
+        # Create profile
         profile, created = UserProfile.objects.get_or_create(user=user)
+
         profile.role = role
         profile.save()
 
-        messages.success(request, "Account created successfully")
+        # =====================================
+        # SEND WELCOME EMAIL
+        # =====================================
+
+        subject = "Welcome to ElectroVolt 🎉"
+
+        message = f"""
+Hello {username},
+
+Your account has been created successfully.
+
+====================================
+
+LOGIN DETAILS
+
+Username : {username}
+
+Password : {password}
+
+Role : {role}
+
+====================================
+
+You can now login to your account.
+
+Thank you for joining ElectroVolt ❤️
+"""
+
+        send_mail(
+
+            subject,
+
+            message,
+
+            settings.EMAIL_HOST_USER,
+
+            [email],
+
+            fail_silently=False
+        )
+
+        messages.success(request,"Account created successfully ✅")
+
         return redirect('login')
 
-    return render(request, 'accounts/register.html')
-
+    return render(request,'accounts/register.html')
 
 #  LOGIN
 def user_login(request):
